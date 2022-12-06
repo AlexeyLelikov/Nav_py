@@ -82,9 +82,9 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     F_C_N_extrap = Calc_F_C_N(B_extrap, h_extrap, a_e, ecc2)
 
     if mod_alpha > 1e-16:
-        temp1 = (1 - np.cos(mod_alpha)) / mod_alpha2)
+        temp1 = (1 - np.cos(mod_alpha)) / mod_alpha2
         temp2 = 1 / mod_alpha2 * (1 - np.sin(mod_alpha) / mod_alpha)
-    else
+    else:
         temp1 = 1 / 2
         temp2 = 1 / 6
 
@@ -131,7 +131,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     if mod_ksi_n > 1e-16:
         temp1 = np.sin(mod_ksi_n) / mod_ksi_n
         temp2 = (1 - np.cos(mod_ksi_n)) / mod_ksi_n_2
-    else
+    else:
         temp1 = 1
         temp2 = 1 / 2
 
@@ -156,7 +156,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     if mod_phi_m > 1e-16:
         temp1 = np.sin(mod_phi_m) / mod_phi_m
         temp2 = (1 - np.cos(mod_phi_m)) / mod_phi_m_2
-    else
+    else:
         temp1 = 1
         temp2 = 1 / 2
 
@@ -181,7 +181,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
         temp1 = np.sin(mod_zetta_n) / mod_zetta_n
         temp2 = (1 - np.cos(mod_zetta_n)) / mod_zetta_n_2
-    else
+    else:
         temp1 = 1
         temp2 = 1 / 2
 

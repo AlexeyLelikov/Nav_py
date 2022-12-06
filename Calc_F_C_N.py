@@ -10,6 +10,6 @@ def Calc_F_C_N(B : float,h : float,a_e : float,ecc2 : float) -> np.array:
     F_C_N = np.array([
         [0,0,1 / R_E],
         [0,0,np.tan(B)/R_E],
-        [-1/R_N,0,0])
+        [-1/R_N,0,0]])
 
     return F_C_N

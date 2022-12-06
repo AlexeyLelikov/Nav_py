@@ -1,5 +1,5 @@
 import numpy as np
-def LatLonAlt2XYZ(Lat : float,Lon : float,Alt : float)
+def LatLonAlt2XYZ(Lat : float,Lon : float,Alt : float):
 
     a_e = 6378137
     ecc = 0.081819190842622

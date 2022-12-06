@@ -1,5 +1,5 @@
 import numpy as np
-def Calc_F_C_E(B : float,L : float) -> np.array:
+def Calc_C_N_E(B : float,L : float) -> np.array:
 
     cosL = np.cos(L)
     sinL = np.sin(L)
