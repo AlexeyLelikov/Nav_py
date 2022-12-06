@@ -1,9 +1,9 @@
 import numpy as np
 
 def CalcGravity(X:float,Y:float,Z:float)->np.array:
-    t2 = X ** 2
-    t3 = Y ** 2
-    t4 = Z ** 2
+    t2 = X ** 2.0
+    t3 = Y ** 2.0
+    t4 = Z ** 2.0
     t5 = t2 + t3 + t4
     t6 = 1.0 / t5 ** (3.0 / 2.0)
     t7 = 1.0 / t5 ** (5.0 / 2.0)

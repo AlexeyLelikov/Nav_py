@@ -11,10 +11,10 @@ from twoPiBound import twoPiBound
 def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : np.array ) -> tuple:
 
     Om_e = 7.292115e-5
-    EYE3x3 = np.array([[1,0,0],[0,1,0],[0,0,1]],dtype = np.float64)
+    EYE3x3 = np.array([[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]],dtype = np.float64)
 
     # Используется ПЗ-90
-    a_e = 6378136
+    a_e = 6378136.0
     ecc = 0.0818191065283638
     ecc2 = ecc * ecc
 
@@ -38,16 +38,16 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     mod_alpha = np.sqrt(delta_alpha[0] * delta_alpha[0] + delta_alpha[1] * delta_alpha[1] + delta_alpha[2] * delta_alpha[2])
     mod_alpha2 = mod_alpha * mod_alpha
 
-    beta = 1 / 12 * cross(delta_alpha_old, delta_alpha)
+    beta = 1.0 / 12.0 * cross(delta_alpha_old, delta_alpha)
 
-    Sa = (dt / 12) * (5 * delta_alpha + delta_alpha_old)
-    Sv = (dt / 12) * (5 * delta_v + delta_v_old)
+    Sa = (dt / 12.0) * (5.0 * delta_alpha + delta_alpha_old)
+    Sv = (dt / 12.0) * (5.0 * delta_v + delta_v_old)
 
     temp1 = delta_alpha - delta_alpha_old
     temp2 = delta_v - delta_v_old
 
-    dR_scrl_A =  - 1 / 24 * ((cross(temp1,Sv) + cross(temp2,Sa)))
-    dR_scrl_B = dt / 144 * cross(temp2,delta_alpha) - dt / 144 * cross(temp1,delta_v) + dt / 240 * cross(temp1,temp2)
+    dR_scrl_A =  - 1.0 / 24.0 * ((cross(temp1,Sv) + cross(temp2,Sa)))
+    dR_scrl_B = dt / 144.0 * cross(temp2,delta_alpha) - dt / 144.0 * cross(temp1,delta_v) + dt / 240.0 * cross(temp1,temp2)
     delta_R_scrl = dR_scrl_A + dR_scrl_B
 
     B_extrap = 1.5 * B - 0.5 * B_old
@@ -61,7 +61,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     sinB2 = sinB * sinB
 
-    gt = 9.7803267715 * (1 + 0.0052790414 * sinB2 + 0.0000232718 * sinB2 * sinB2) + (-0.0000030876910891 + 0.0000000043977311 * sinB2) * h_extrap + 0.0000000000007211 * h_extrap * h_extrap
+    gt = 9.7803267715 * (1.0 + 0.0052790414 * sinB2 + 0.0000232718 * sinB2 * sinB2) + (-0.0000030876910891 + 0.0000000043977311 * sinB2) * h_extrap + 0.0000000000007211 * h_extrap * h_extrap
 
     arr_X_Y_Z = LatLonAlt2XYZ(B_extrap, L, h_extrap)
     X = arr_X_Y_Z[0]
@@ -77,20 +77,20 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     gt = abs(g_P_N_extrap[1])
 
-    omega_IE_N_extrap = np.array([Om_e * cosB, Om_e * sinB, 0 ])
+    omega_IE_N_extrap = np.array([Om_e * cosB, Om_e * sinB, 0.0 ])
 
     F_C_N_extrap = Calc_F_C_N(B_extrap, h_extrap, a_e, ecc2)
 
     if mod_alpha > 1e-16:
-        temp1 = (1 - np.cos(mod_alpha)) / mod_alpha2
-        temp2 = 1 / mod_alpha2 * (1 - np.sin(mod_alpha) / mod_alpha)
+        temp1 = (1.0 - np.cos(mod_alpha)) / mod_alpha2
+        temp2 = 1.0 / mod_alpha2 * (1.0 - np.sin(mod_alpha) / mod_alpha)
     else:
-        temp1 = 1 / 2
-        temp2 = 1 / 6
+        temp1 = 1.0 / 2.0
+        temp2 = 1.0 / 6.0
 
     delta_v_rot_m = temp1 * cross(delta_alpha, delta_v) + temp2 * cross(delta_alpha, cross(delta_alpha, delta_v))
 
-    delta_v_scul = 1 / 12 * cross(delta_alpha_old, delta_v) + 1 / 12 * cross(delta_v_old, delta_alpha)
+    delta_v_scul = 1.0 / 12.0 * cross(delta_alpha_old, delta_v) + 1.0/ 12.0 * cross(delta_v_old, delta_alpha)
 
     delta_v_SFm_BmMinus1 = delta_v + delta_v_rot_m + delta_v_scul
 
@@ -102,7 +102,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     delta_v_SFm_L = C_LnMinus1_Lm @ delta_v_SFm_LnMinus1
 
-    delta_v_G_CORm_N = g_P_N_extrap * dt - cross((2 * omega_IE_N_extrap + F_C_N_extrap @ W_extrap), W_extrap) * dt
+    delta_v_G_CORm_N = g_P_N_extrap * dt - cross((2.0 * omega_IE_N_extrap + F_C_N_extrap @ W_extrap), W_extrap) * dt
 
     W_new = W + delta_v_SFm_L + delta_v_G_CORm_N
 
@@ -110,13 +110,13 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     temp3 = cross(Sa, delta_v) + cross(delta_alpha, Sv)
 
-    delta_R_Rotm = 1 / 6 * temp3
+    delta_R_Rotm = 1.0 / 6.0 * temp3
 
     delta_R_SFm_B = Sv + delta_R_Rotm + delta_R_scrl
 
-    delta_R_SFm_L = - 1 / 6 * cross(ksi_nMinus1_m, delta_v_SFm_LnMinus1) * dt + C_B_N_old @ delta_R_SFm_B
+    delta_R_SFm_L = - 1.0 / 6.0 * cross(ksi_nMinus1_m, delta_v_SFm_LnMinus1) * dt + C_B_N_old @ delta_R_SFm_B
 
-    delta_R_m_N = (W + 1 / 2 * delta_v_G_CORm_N) * dt + delta_R_SFm_L
+    delta_R_m_N = (W + 1.0 / 2.0 * delta_v_G_CORm_N) * dt + delta_R_SFm_L
 
     delta_h = delta_R_m_N[1]
 
@@ -130,10 +130,10 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     if mod_ksi_n > 1e-16:
         temp1 = np.sin(mod_ksi_n) / mod_ksi_n
-        temp2 = (1 - np.cos(mod_ksi_n)) / mod_ksi_n_2
+        temp2 = (1.0 - np.cos(mod_ksi_n)) / mod_ksi_n_2
     else:
-        temp1 = 1
-        temp2 = 1 / 2
+        temp1 = 1.0
+        temp2 = 1.0 / 2.0
 
     C_Nn_NnMinus1 = EYE3x3 + temp1 * SkewSymmMatr(ksi_n) + temp2 * SkewSymmMatr(ksi_n) @ SkewSymmMatr(ksi_n)
 
@@ -141,7 +141,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     C_N_E_new = C_N_E_old @ C_Nn_NnMinus1
 
-    C_N_E_new = (EYE3x3 - 1 / 2 * (C_N_E_new @ C_N_E_new.T - EYE3x3)) @ C_N_E_new
+    C_N_E_new = (EYE3x3 - 1.0 / 2.0 * (C_N_E_new @ C_N_E_new.T - EYE3x3)) @ C_N_E_new
 
     B_new = np.arctan2(C_N_E_new[2, 1], C_N_E_new[2, 0])
 
@@ -155,17 +155,17 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     if mod_phi_m > 1e-16:
         temp1 = np.sin(mod_phi_m) / mod_phi_m
-        temp2 = (1 - np.cos(mod_phi_m)) / mod_phi_m_2
+        temp2 = (1.0 - np.cos(mod_phi_m)) / mod_phi_m_2
     else:
-        temp1 = 1
-        temp2 = 1 / 2
+        temp1 = 1.0
+        temp2 = 1.0 / 2.0
 
     C_Bm_BmMinus1 = EYE3x3 + temp1 * SkewSymmMatr(phi_m) + temp2 * SkewSymmMatr(phi_m) @ SkewSymmMatr(phi_m)
 
     C_Bm_LnMinus1 = C_B_N_old @ C_Bm_BmMinus1
 
-    B_mean = 1 / 2 * (B_new + B)
-    h_mean = 1 / 2 * (h_new + h)
+    B_mean = 1.0 / 2.0 * (B_new + B)
+    h_mean = 1.0 / 2.0 * (h_new + h)
 
     omega_IE_N_mean = np.array([Om_e * np.cos(B_mean), Om_e * np.sin(B_mean), 0])
 
@@ -179,10 +179,10 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     if mod_zetta_n > 1e-16:
         temp1 = np.sin(mod_zetta_n) / mod_zetta_n
-        temp2 = (1 - np.cos(mod_zetta_n)) / mod_zetta_n_2
+        temp2 = (1.0 - np.cos(mod_zetta_n)) / mod_zetta_n_2
     else:
-        temp1 = 1
-        temp2 = 1 / 2
+        temp1 = 1.0
+        temp2 = 1.0 / 2.0
 
     C_LnMinus1_Ln = EYE3x3 - temp1 * SkewSymmMatr(zetta_n) + temp2 * SkewSymmMatr(zetta_n) * SkewSymmMatr(zetta_n)
 
@@ -206,16 +206,16 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     NavState[5] = W_new[2]
     #NavState[23:26] = W
     NavState[23] = W[0]
-    NavState[24] = W[0]
-    NavState[25] = W[0]
+    NavState[24] = W[1]
+    NavState[25] = W[2]
     NavState[6] = roll
     NavState[7] = pith
     NavState[8] = heading
 
     return NavState , delta_v, delta_alpha, gt , C_B_N
 
-Lat = 55 * (np.pi / 180)
-Lon = 38 * (np.pi / 180)
+Lat = 55.0 * (np.pi / 180.0)
+Lon = 38.0 * (np.pi / 180.0)
 
 Lat_old = Lat
 Alt = 0
@@ -250,12 +250,12 @@ Heading = 0
 T = 5400
 N = 100 * T
 t = np.linspace(0,T,N)
-C_B_N = np.array([[1,0,0],[0,1,0],[0,0,1]],dtype = np.float64)
+C_B_N = np.array([[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]],dtype = np.float64)
 
 NavState = np.array([Lat,Lon,Alt,          # Широта, долгота, геодезическая высота
                    W_NUE[0],W_NUE[1],W_NUE[2],               # Скорость на север, вверх, на восток
                    Roll,Pitch,Heading,   # Крен, тангаж, курс
-                   0,0,0,0,0,0,0,0,0,0,0,0,           # Ошибки масштабных коэффициентов акселерометров, смещения нуля акселерометров, ошибки масштабных коэффициентов гироскопов
+                   0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,           # Ошибки масштабных коэффициентов акселерометров, смещения нуля акселерометров, ошибки масштабных коэффициентов гироскопов
                    Lat_old,Alt_old,              # Предыдущие широта и высота
                    W_NUE_old[0],W_NUE_old[1],W_NUE_old[2]])
 
@@ -297,6 +297,62 @@ queue_yaw = queue_yaw * (180.0 / np.pi)
 plt.figure(1)
 plt.plot(t,queue_Lat)
 plt.title("Широта")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(2)
+plt.plot(t,queue_Lon)
+plt.title("Долгота")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(3)
+plt.plot(t,queue_pitch)
+plt.title("Тангаж")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(4)
+plt.plot(t,queue_roll)
+plt.title("Крен")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(5)
+plt.plot(t,queue_yaw)
+plt.title("Курс")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(6)
+plt.plot(t,queue_W_N)
+plt.title("Скорость W")
+plt.xlabel('Cекунды')
+plt.ylabel('м/c')
+plt.grid(True)
+plt.show()
+
+plt.figure(6)
+plt.plot(t,queue_W_U)
+plt.title("Скорость U")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(6)
+plt.plot(t,queue_W_E)
+plt.title("Скорость E")
 plt.xlabel('Cекунды')
 plt.ylabel('град')
 plt.grid(True)
