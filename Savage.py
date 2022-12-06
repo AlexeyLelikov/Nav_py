@@ -8,7 +8,7 @@ from Calc_F_C_N import Calc_F_C_N
 from Calc_C_N_E import Calc_C_N_E
 from twoPiBound import twoPiBound
 
-def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : np.array ) -> np.array:
+def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : np.array ) -> tuple:
 
     Om_e = 7.292115e-5
     EYE3x3 = np.array([[1,0,0],[0,1,0],[0,0,1]],dtype = np.float64)
@@ -178,7 +178,6 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     mod_zetta_n_2 = mod_zetta_n * mod_zetta_n
 
     if mod_zetta_n > 1e-16:
-
         temp1 = np.sin(mod_zetta_n) / mod_zetta_n
         temp2 = (1 - np.cos(mod_zetta_n)) / mod_zetta_n_2
     else:
@@ -201,13 +200,94 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     NavState[1] = L_new
     NavState[2] = h_new
     NavState[22] = h
-    NavState[3:6] = W_new
-    NavState[23:26] = W
+    #NavState[3:6] = W_new
+    NavState[3] = W_new[0]
+    NavState[4] = W_new[1]
+    NavState[5] = W_new[2]
+    #NavState[23:26] = W
+    NavState[23] = W[0]
+    NavState[24] = W[0]
+    NavState[25] = W[0]
     NavState[6] = roll
     NavState[7] = pith
     NavState[8] = heading
 
-    return NavState
+    return NavState , delta_v, delta_alpha, gt , C_B_N
+
+Lat = 55 * (np.pi / 180)
+Lon = 38 * (np.pi / 180)
+
+Lat_old = Lat
+Alt = 0
+Alt_old = 0
+
+# Вычисление силы тяжести
+
+arr_X_Y_Z = LatLonAlt2XYZ(Lat, Lon, Alt)
+X = arr_X_Y_Z[0]
+Y = arr_X_Y_Z[1]
+Z = arr_X_Y_Z[2]
+gravity = CalcGravity(X, Y, Z)
+sinB = np.sin(Lat)
+cosB = np.cos(Lat)
+sinL = np.sin(Lon)
+cosL = np.cos(Lon)
+
+g_P_N_extrap = np.zeros(3)
+g_P_N_extrap[0] = -cosL * sinB * gravity[0] - sinL * sinB * gravity[1] + cosB * gravity[2]
+g_P_N_extrap[2] = cosL * cosB * gravity[0] + sinL * cosB * gravity[1]+ sinB * gravity[2]
+gt = abs(g_P_N_extrap[1])
+U = 7.292115e-5
+acc = np.array([0.0, gt / 100.0, 0.0])
+gyro = np.array([(U * np.cos(Lat)) / 100.0, (U * np.sin(Lat)) / 100.0, 0.0])
+Sensors = np.zeros((6,2))
+W_NUE = np.array([0,0,0])
+W_NUE_old = np.array([0,0,0])
+dt = 1.0 / 100.0
+Roll = 0.0
+Pitch = 0.0
+Heading = 0
+T = 360
+N = 100 * T
+t = np.linspace(0,T,N)
+C_B_N = np.array([[1,0,0],[0,1,0],[0,0,1]],dtype = np.float64)
+
+NavState = np.array([Lat,Lon,Alt,          # Широта, долгота, геодезическая высота
+                   W_NUE[0],W_NUE[1],W_NUE[2],               # Скорость на север, вверх, на восток
+                   Roll,Pitch,Heading,   # Крен, тангаж, курс
+                   0,0,0,0,0,0,0,0,0,0,0,0,           # Ошибки масштабных коэффициентов акселерометров, смещения нуля акселерометров, ошибки масштабных коэффициентов гироскопов
+                   Lat_old,Alt_old,              # Предыдущие широта и высота
+                   W_NUE_old[0],W_NUE_old[1],W_NUE_old[2]])
+
+queue_Lat = np.zeros(N)
+queue_Lon = np.zeros(N)
+queue_pitch = np.zeros(N)
+queue_roll = np.zeros(N)
+queue_yaw = np.zeros(N)
+queue_Alt = np.zeros(N)
+queue_W_N = np.zeros(N)
+queue_W_U = np.zeros(N)
+queue_W_E = np.zeros(N)
+
+Sensors[0:3,1] = acc # выходной сигнал акселерометра по осям чувствительности (x,y,z) на текущем такте расчетов
+Sensors[0:3,0] = acc
+Sensors[3:6,0] = gyro
+Sensors[3:6,1] = gyro
+
+for i in range(0,N):
+    NavState[2] = 0.0
+    NavState[4] = 0.0
+    queue_Lat[i] = NavState[0]
+    queue_Lon[i] = NavState[1]
+    queue_roll[i] = NavState[6]
+    queue_pitch[i] = NavState[7]
+    queue_yaw[i] = NavState[8]
+    queue_W_N[i] = NavState[3]
+    queue_W_U[i] = NavState[4]
+    queue_W_E[i] = NavState[5]
+    queue_Alt[i] = NavState[2]
+    (NavState, delta_v, delta_alpha, gt, C_B_N) = Savage(NavState, Sensors, dt, C_B_N)
+
 
 
 
