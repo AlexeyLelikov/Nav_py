@@ -1,5 +1,5 @@
 import numpy as np
-import math
+import matplotlib.pyplot as plt
 from SkewSymmMatr import SkewSymmMatr
 from cross import cross
 from LatLonAlt2XYZ import LatLonAlt2XYZ
@@ -143,9 +143,9 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     C_N_E_new = (EYE3x3 - 1 / 2 * (C_N_E_new @ C_N_E_new.T - EYE3x3)) @ C_N_E_new
 
-    B_new = np.atan2(C_N_E_new[2, 1], C_N_E_new[2, 0])
+    B_new = np.arctan2(C_N_E_new[2, 1], C_N_E_new[2, 0])
 
-    L_new = np.atan2(- C_N_E_new[0, 2], C_N_E_new[1, 2])
+    L_new = np.arctan2(- C_N_E_new[0, 2], C_N_E_new[1, 2])
 
     phi_m = delta_alpha + beta
 
@@ -190,9 +190,9 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     C_B_L_new = C_Bm_Ln
 
-    roll = np.atan2(-C_B_L_new[1,2], C_B_L_new[1, 1])
-    pith = np.atan(C_B_L_new[1, 0] / np.sqrt(C_B_L_new[1, 1] * C_B_L_new[1, 1] + C_B_L_new[1, 2] * C_B_L_new[1, 2]))
-    heading = np.atan2(C_B_L_new[2, 0], C_B_L_new[0, 0])
+    roll = np.arctan2(-C_B_L_new[1,2], C_B_L_new[1, 1])
+    pith = np.arctan(C_B_L_new[1, 0] / np.sqrt(C_B_L_new[1, 1] * C_B_L_new[1, 1] + C_B_L_new[1, 2] * C_B_L_new[1, 2]))
+    heading = np.arctan2(C_B_L_new[2, 0], C_B_L_new[0, 0])
     heading = twoPiBound(heading) # Ограничение
 
     NavState[0] = B_new
@@ -247,7 +247,7 @@ dt = 1.0 / 100.0
 Roll = 0.0
 Pitch = 0.0
 Heading = 0
-T = 360
+T = 5400
 N = 100 * T
 t = np.linspace(0,T,N)
 C_B_N = np.array([[1,0,0],[0,1,0],[0,0,1]],dtype = np.float64)
@@ -288,6 +288,19 @@ for i in range(0,N):
     queue_Alt[i] = NavState[2]
     (NavState, delta_v, delta_alpha, gt, C_B_N) = Savage(NavState, Sensors, dt, C_B_N)
 
+queue_Lat = queue_Lat * (180.0 / np.pi)
+queue_Lon = queue_Lon * (180.0 / np.pi)
+queue_pitch = queue_pitch * (180.0 / np.pi)
+queue_roll = queue_roll * (180.0 / np.pi)
+queue_yaw = queue_yaw * (180.0 / np.pi)
+
+plt.figure(1)
+plt.plot(t,queue_Lat)
+plt.title("Широта")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
 
 
 

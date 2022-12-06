@@ -3,7 +3,7 @@ def Calc_F_C_N(B : float,h : float,a_e : float,ecc2 : float) -> np.array:
     sinB = np.sin(B)
     sinB2 = sinB * sinB
 
-    R_N = a_e * (1 - ecc2) / (1 - ecc2 * sinB2) ^ 1.5 + h
+    R_N = a_e * (1 - ecc2) / (1 - ecc2 * sinB2) ** 1.5 + h
 
     R_E = a_e / np.sqrt(1 - ecc2 * sinB2) + h
 
