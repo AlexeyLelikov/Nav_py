@@ -8,7 +8,7 @@ from Calc_F_C_N import Calc_F_C_N
 from Calc_C_N_E import Calc_C_N_E
 from twoPiBound import twoPiBound
 
-def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : numpy.array ) -> np.array:
+def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : np.array ) -> np.array:
 
     Om_e = 7.292115e-5
     EYE3x3 = np.array([[1,0,0],[0,1,0],[0,0,1]],dtype = np.float64)
@@ -194,7 +194,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     roll = np.atan2(-C_B_L_new[1,2], C_B_L_new[1, 1])
     pith = np.atan(C_B_L_new[1, 0] / np.sqrt(C_B_L_new[1, 1] * C_B_L_new[1, 1] + C_B_L_new[1, 2] * C_B_L_new[1, 2]))
     heading = np.atan2(C_B_L_new[2, 0], C_B_L_new[0, 0])
-    heading = twoPiBound(heading); # Ограничение
+    heading = twoPiBound(heading) # Ограничение
 
     NavState[0] = B_new
     NavState[21] = B
@@ -208,4 +208,6 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     NavState[8] = heading
 
     return NavState
+
+
 
