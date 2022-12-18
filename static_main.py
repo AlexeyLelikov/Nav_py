@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from Savage import Savage
 from LatLonAlt2XYZ import LatLonAlt2XYZ
 from CalcGravity import CalcGravity
+from DCM_bn import DCM_bn
 
 Lat = 55.0 * (np.pi / 180.0)
 Lon = 38.0 * (np.pi / 180.0)
@@ -34,7 +35,7 @@ dt = 1.0 / 100.0
 Roll = 20.0 * np.pi / 180
 Pitch = 10.0 * np.pi / 180
 Heading = 270.0 * np.pi / 180
-C_B_N = np.array([[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]],dtype = np.float64)
+C_B_N = DCM_bn(Heading, Pitch, Roll)
 acc = C_B_N.T @ acc
 gyro = C_B_N.T @ gyro
 T = 5400 # c
