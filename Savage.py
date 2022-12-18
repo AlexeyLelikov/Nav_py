@@ -63,17 +63,14 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     gt = 9.7803267715 * (1.0 + 0.0052790414 * sinB2 + 0.0000232718 * sinB2 * sinB2) + (-0.0000030876910891 + 0.0000000043977311 * sinB2) * h_extrap + 0.0000000000007211 * h_extrap * h_extrap
 
-    arr_X_Y_Z = LatLonAlt2XYZ(B_extrap, L, h_extrap)
-    X = arr_X_Y_Z[0]
-    Y = arr_X_Y_Z[1]
-    Z = arr_X_Y_Z[2]
+    (X,Y,Z) = LatLonAlt2XYZ(B_extrap, L, h_extrap)
 
     gravity = CalcGravity(X, Y, Z)
 
     g_P_N_extrap = np.zeros((3))
 
     g_P_N_extrap[0] = -cosL * sinB * gravity[0] - sinL * sinB * gravity[1] + cosB * gravity[2]
-    g_P_N_extrap[1]= cosL * cosB * gravity[0] + sinL * cosB * gravity[1] + sinB * gravity[2]
+    g_P_N_extrap[1] = cosL * cosB * gravity[0] + sinL * cosB * gravity[1] + sinB * gravity[2]
 
     gt = abs(g_P_N_extrap[1])
 
@@ -90,7 +87,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     delta_v_rot_m = temp1 * cross(delta_alpha, delta_v) + temp2 * cross(delta_alpha, cross(delta_alpha, delta_v))
 
-    delta_v_scul = 1.0 / 12.0 * cross(delta_alpha_old, delta_v) + 1.0/ 12.0 * cross(delta_v_old, delta_alpha)
+    delta_v_scul = 1.0 / 12.0 * cross(delta_alpha_old, delta_v) + 1.0 / 12.0 * cross(delta_v_old, delta_alpha)
 
     delta_v_SFm_BmMinus1 = delta_v + delta_v_rot_m + delta_v_scul
 
@@ -141,7 +138,7 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
 
     C_N_E_new = C_N_E_old @ C_Nn_NnMinus1
 
-    C_N_E_new = (EYE3x3 - 1.0 / 2.0 * (C_N_E_new @ C_N_E_new.T - EYE3x3)) @ C_N_E_new
+    C_N_E_new = (EYE3x3 - ((1.0 / 2.0) * (C_N_E_new @ C_N_E_new.T - EYE3x3))) @ C_N_E_new
 
     B_new = np.arctan2(C_N_E_new[2, 1], C_N_E_new[2, 0])
 
@@ -184,14 +181,14 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
         temp1 = 1.0
         temp2 = 1.0 / 2.0
 
-    C_LnMinus1_Ln = EYE3x3 - temp1 * SkewSymmMatr(zetta_n) + temp2 * SkewSymmMatr(zetta_n) * SkewSymmMatr(zetta_n)
+    C_LnMinus1_Ln = EYE3x3 - temp1 * SkewSymmMatr(zetta_n) + temp2 * SkewSymmMatr(zetta_n) @ SkewSymmMatr(zetta_n)
 
     C_Bm_Ln = C_LnMinus1_Ln @ C_Bm_LnMinus1
 
     C_B_L_new = C_Bm_Ln
 
     roll = np.arctan2(-C_B_L_new[1,2], C_B_L_new[1, 1])
-    pith = np.arctan(C_B_L_new[1, 0] / np.sqrt(C_B_L_new[1, 1] * C_B_L_new[1, 1] + C_B_L_new[1, 2] * C_B_L_new[1, 2]))
+    pitch = np.arctan(C_B_L_new[1, 0] / np.sqrt(C_B_L_new[1, 1] * C_B_L_new[1, 1] + C_B_L_new[1, 2] * C_B_L_new[1, 2]))
     heading = np.arctan2(C_B_L_new[2, 0], C_B_L_new[0, 0])
     heading = twoPiBound(heading) # Ограничение
 
@@ -209,10 +206,10 @@ def Savage(NavState : np.array, Sensors : np.array , dt : float  , C_B_N_old : n
     NavState[24] = W[1]
     NavState[25] = W[2]
     NavState[6] = roll
-    NavState[7] = pith
+    NavState[7] = pitch
     NavState[8] = heading
 
-    return NavState , delta_v, delta_alpha, gt , C_B_N
+    return NavState , delta_v, delta_alpha, gt , C_B_L_new
 
 Lat = 55.0 * (np.pi / 180.0)
 Lon = 38.0 * (np.pi / 180.0)
@@ -223,10 +220,7 @@ Alt_old = 0
 
 # Вычисление силы тяжести
 
-arr_X_Y_Z = LatLonAlt2XYZ(Lat, Lon, Alt)
-X = arr_X_Y_Z[0]
-Y = arr_X_Y_Z[1]
-Z = arr_X_Y_Z[2]
+(X,Y,Z) = LatLonAlt2XYZ(Lat, Lon, Alt)
 gravity = CalcGravity(X, Y, Z)
 sinB = np.sin(Lat)
 cosB = np.cos(Lat)
@@ -235,19 +229,19 @@ cosL = np.cos(Lon)
 
 g_P_N_extrap = np.zeros(3)
 g_P_N_extrap[0] = -cosL * sinB * gravity[0] - sinL * sinB * gravity[1] + cosB * gravity[2]
-g_P_N_extrap[2] = cosL * cosB * gravity[0] + sinL * cosB * gravity[1]+ sinB * gravity[2]
+g_P_N_extrap[1] = cosL * cosB * gravity[0] + sinL * cosB * gravity[1] + sinB * gravity[2]
 gt = abs(g_P_N_extrap[1])
 U = 7.292115e-5
-acc = np.array([0.0, gt / 100.0, 0.0])
-gyro = np.array([(U * np.cos(Lat)) / 100.0, (U * np.sin(Lat)) / 100.0, 0.0])
-Sensors = np.zeros((6,2))
+acc = np.array([0.0, gt / 100.0, 0.0], dtype = np.float64)
+gyro = np.array([(U * np.cos(Lat)) / 100.0, (U * np.sin(Lat)) / 100.0, 0.0],dtype = np.float64)
+Sensors = np.zeros((6,2),dtype = np.float64)
 W_NUE = np.array([0,0,0])
 W_NUE_old = np.array([0,0,0])
 dt = 1.0 / 100.0
 Roll = 0.0
 Pitch = 0.0
-Heading = 0
-T = 5400
+Heading = 0.0
+T = 5400 # c
 N = 100 * T
 t = np.linspace(0,T,N)
 C_B_N = np.array([[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]],dtype = np.float64)
@@ -342,7 +336,7 @@ plt.ylabel('м/c')
 plt.grid(True)
 plt.show()
 
-plt.figure(6)
+plt.figure(7)
 plt.plot(t,queue_W_U)
 plt.title("Скорость U")
 plt.xlabel('Cекунды')
@@ -350,13 +344,34 @@ plt.ylabel('град')
 plt.grid(True)
 plt.show()
 
-plt.figure(6)
+plt.figure(8)
 plt.plot(t,queue_W_E)
 plt.title("Скорость E")
 plt.xlabel('Cекунды')
 plt.ylabel('град')
 plt.grid(True)
 plt.show()
+
+R = 6356.863 # км
+queue_x = (queue_Lat * ((np.pi / 180) * R)) - (queue_Lat[0] * ((np.pi / 180) * R))
+queue_y = (queue_Lon * (np.pi / 180) * (R * np.cos(Lat))) - (queue_Lon[0] * np.pi / 180 * (R * np.cos(Lat)))
+plt.figure(9)
+plt.plot(t,queue_x)
+plt.title("N")
+plt.xlabel('Cекунды')
+plt.ylabel('N,км')
+plt.grid(True)
+plt.show()
+
+plt.figure(10)
+plt.plot(t,queue_y)
+plt.title("E")
+plt.xlabel('Cекунды')
+plt.ylabel('E,км')
+plt.grid(True)
+plt.show()
+
+
 
 
 
