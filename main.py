@@ -27,7 +27,7 @@ gyro = data[:,12:15]
 
 GPSQuality = data[:,23]
 GPS = data[:,17:23]
-GPS[0:2] = GPS[0:2] * np.pi / 180
+GPS[:,0:2] = GPS[:,0:2] * np.pi / 180
 
 StatusMS = data[:, 33]
 MagnSens = data[:, 30:33] * 10
@@ -72,7 +72,7 @@ if True: # если датчики - ВОГ, то проводится опре�
     (Heading, Pitch, Roll) = EulerFromDCMnue(Rbn)
     C_B_N = DCM_bn(Heading,Pitch,Roll) # Расчет DCM
     Heading = twoPiBound(Heading)  # Ограничение
-# Вектор состояния навигационной алгоритма
+# Вектор состояния навигационного алгоритма
 NavState = np.array([Lat,Lon,Alt,          # Широта, долгота, геодезическая высота
                    W_NUE[0],W_NUE[1],W_NUE[2],               # Скорость на север, вверх, на восток
                    Roll,Pitch,Heading,   # Крен, тангаж, курс
@@ -87,9 +87,9 @@ print(Pitch * (180 / np.pi))
 print("Крен ")
 print(Roll * (180 / np.pi))
 print("Широта ")
-print(Lat)
+print(Lat * (180 / np.pi))
 print("Долгота ")
-print(Lon)
+print(Lon * (180 / np.pi))
 print("Высота ")
 print(Alt)
 print("W_N ")
@@ -98,15 +98,15 @@ print("W_U ")
 print(W_NUE[1])
 print("W_E ")
 print(W_NUE[2])
-queue_Lat = np.zeros(n-(Alignment+1))
-queue_Lon = np.zeros(n-(Alignment+1))
-queue_pitch = np.zeros(n-(Alignment+1))
-queue_roll = np.zeros(n-(Alignment+1))
-queue_heading = np.zeros(n-(Alignment+1))
-queue_Alt = np.zeros(n-(Alignment+1))
-queue_W_N = np.zeros(n-(Alignment+1))
-queue_W_U = np.zeros(n-(Alignment+1))
-queue_W_E = np.zeros(n-(Alignment+1))
+queue_Lat = np.zeros(n-(Alignment))
+queue_Lon = np.zeros(n-(Alignment))
+queue_pitch = np.zeros(n-(Alignment))
+queue_roll = np.zeros(n-(Alignment))
+queue_heading = np.zeros(n-(Alignment))
+queue_Alt = np.zeros(n-(Alignment))
+queue_W_N = np.zeros(n-(Alignment))
+queue_W_U = np.zeros(n-(Alignment))
+queue_W_E = np.zeros(n-(Alignment))
 ## ======================= Работа ============================
 for i in range(Alignment,n):
     Sensors[0:3,1] = acc[i,:] # выходной сигнал акселерометра по осям чувствительности (x,y,z) на текущем такте расчетов
@@ -124,7 +124,7 @@ for i in range(Alignment,n):
     queue_W_U[i - Alignment] = NavState[4]
     queue_W_E[i - Alignment] = NavState[5]
     queue_Alt[i - Alignment] = NavState[2]
-    (NavState,delta_v,delta_alpha, gt ,C_B_N) = Savage(NavState, Sensors, dt, C_B_N)
+    (NavState, delta_v, delta_alpha, gt, C_B_N) = Savage(NavState, Sensors, dt, C_B_N)
 
 queue_Lat = queue_Lat * (180 / np.pi)
 queue_Lon = queue_Lon * (180 / np.pi)
@@ -139,5 +139,97 @@ plt.xlabel('Cекунды')
 plt.ylabel('град')
 plt.grid(True)
 plt.show()
+
+n = queue_Lat.shape[0]
+s = 60000
+d = 230000
+N = n-d
+T = N / 100 # c
+t = np.linspace(0,T,N)
+
+plt.figure(1)
+plt.plot(t,queue_Lat[:N])
+plt.title("Широта")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(2)
+plt.plot(t,queue_Lon[:N])
+plt.title("Долгота")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(3)
+plt.plot(t,queue_pitch[:N])
+plt.title("Тангаж")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(4)
+plt.plot(t,queue_roll[:N])
+plt.title("Крен")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(5)
+plt.plot(t,queue_heading[:N])
+plt.title("Курс")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(6)
+plt.plot(t,queue_W_E[:N])
+plt.title("Скорость N")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(7)
+plt.plot(t,queue_W_N[:N])
+plt.title("Скорость E")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+plt.figure(8)
+plt.plot(t,queue_W_U[:N])
+plt.title("Скорость Up")
+plt.xlabel('Cекунды')
+plt.ylabel('град')
+plt.grid(True)
+plt.show()
+
+R = 6356.863 # км
+queue_x = (queue_Lat * ((np.pi / 180) * R)) - (queue_Lat[0] * ((np.pi / 180) * R))
+queue_y = (queue_Lon * (np.pi / 180) * (R * np.cos(Lat))) - (queue_Lon[0] * np.pi / 180 * (R * np.cos(Lat)))
+plt.figure(9)
+plt.plot(t,queue_x[:N])
+plt.title("N")
+plt.xlabel('Cекунды')
+plt.ylabel('N,км')
+plt.grid(True)
+plt.show()
+
+plt.figure(10)
+plt.plot(t,queue_y[:N])
+plt.title("E")
+plt.xlabel('Cекунды')
+plt.ylabel('E,км')
+plt.grid(True)
+plt.show()
+
+
 
 
