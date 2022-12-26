@@ -62,7 +62,6 @@ for i in range(Alignment):
     if (StatusMS[i] == 2):
         MS_mean = MS_mean + MagnSens[i]
         MS_mean_count = MS_mean_count + 1
-
 # ======================== Расчет углов крена и тангажа ===============
 accels_mean = (accels_mean/gyros_mean_count) / dt # Осреднение показаний акселерометров. Используется счетчик данных гироскопа
 gyros_mean = (gyros_mean/gyros_mean_count) / dt # Осреднение показаний гироскопов + пересчет в рад/сек
@@ -126,29 +125,29 @@ for i in range(Alignment,n):
     queue_Alt[i - Alignment] = NavState[2]
     (NavState, delta_v, delta_alpha, gt, C_B_N) = Savage(NavState, Sensors, dt, C_B_N)
 
+n = queue_Lat.shape[0]
+s = 60000
+d = 230000
+N = n-d
+N_GPS = n-d-s
+T_GPS = N_GPS / 100
+T = N / 100 # c
+t = np.linspace(0,T,N)
+t_GPS = np.linspace(0,T_GPS,N_GPS)
+
 queue_Lat = queue_Lat * (180 / np.pi)
 queue_Lon = queue_Lon * (180 / np.pi)
 queue_pitch = queue_pitch * (180 / np.pi)
 queue_roll = queue_roll * (180 / np.pi)
 queue_heading = queue_heading * (180 / np.pi)
+queue_GPS_Lat = GPS[s:n-d,1]  * (180 / np.pi)
+queue_GPS_Lon = GPS[s:n-d,2]  * (180 / np.pi)
 
 plt.figure(1)
-plt.plot(queue_Lat)
-plt.title("Широта")
-plt.xlabel('Cекунды')
-plt.ylabel('град')
-plt.grid(True)
-plt.show()
-
-n = queue_Lat.shape[0]
-s = 60000
-d = 230000
-N = n-d
-T = N / 100 # c
-t = np.linspace(0,T,N)
-
-plt.figure(1)
+fig = plt.gcf()
+fig.set_size_inches(24, 10)
 plt.plot(t,queue_Lat[:N])
+plt.plot(t,queue_GPS_Lat[s:n-d])
 plt.title("Широта")
 plt.xlabel('Cекунды')
 plt.ylabel('град')
@@ -156,7 +155,10 @@ plt.grid(True)
 plt.show()
 
 plt.figure(2)
+fig = plt.gcf()
+fig.set_size_inches(24, 10)
 plt.plot(t,queue_Lon[:N])
+#plt.plot(t_GPS,queue_GPS_Lon)
 plt.title("Долгота")
 plt.xlabel('Cекунды')
 plt.ylabel('град')
@@ -164,6 +166,8 @@ plt.grid(True)
 plt.show()
 
 plt.figure(3)
+fig = plt.gcf()
+fig.set_size_inches(24, 10)
 plt.plot(t,queue_pitch[:N])
 plt.title("Тангаж")
 plt.xlabel('Cекунды')
@@ -172,6 +176,8 @@ plt.grid(True)
 plt.show()
 
 plt.figure(4)
+fig = plt.gcf()
+fig.set_size_inches(24, 10)
 plt.plot(t,queue_roll[:N])
 plt.title("Крен")
 plt.xlabel('Cекунды')
@@ -180,6 +186,8 @@ plt.grid(True)
 plt.show()
 
 plt.figure(5)
+fig = plt.gcf()
+fig.set_size_inches(24, 10)
 plt.plot(t,queue_heading[:N])
 plt.title("Курс")
 plt.xlabel('Cекунды')
@@ -188,10 +196,12 @@ plt.grid(True)
 plt.show()
 
 plt.figure(6)
+fig = plt.gcf()
+fig.set_size_inches(24, 10)
 plt.plot(t,queue_W_E[:N])
 plt.title("Скорость N")
 plt.xlabel('Cекунды')
-plt.ylabel('град')
+plt.ylabel('м/c')
 plt.grid(True)
 plt.show()
 
@@ -199,15 +209,17 @@ plt.figure(7)
 plt.plot(t,queue_W_N[:N])
 plt.title("Скорость E")
 plt.xlabel('Cекунды')
-plt.ylabel('град')
+plt.ylabel('м/c')
 plt.grid(True)
 plt.show()
 
 plt.figure(8)
+fig = plt.gcf()
+fig.set_size_inches(24, 10)
 plt.plot(t,queue_W_U[:N])
 plt.title("Скорость Up")
 plt.xlabel('Cекунды')
-plt.ylabel('град')
+plt.ylabel('м/c')
 plt.grid(True)
 plt.show()
 
