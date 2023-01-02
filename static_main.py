@@ -26,19 +26,23 @@ g_P_N_extrap[0] = -cosL * sinB * gravity[0] - sinL * sinB * gravity[1] + cosB * 
 g_P_N_extrap[1] = cosL * cosB * gravity[0] + sinL * cosB * gravity[1] + sinB * gravity[2]
 gt = abs(g_P_N_extrap[1])
 U = 7.292115e-5
+bias_gyro = (0.5 * np.pi / 180) / 3600.0
+K_gyro = 1 + 0.02
+K_gyro = 1 + 0.03
+bias_acc = (0.5 * 180.0 / np.pi) / 3600.0
 acc = np.array([0.0, gt / 100.0, 0.0], dtype = np.float64)
-gyro = np.array([(U * np.cos(Lat)) / 100.0, (U * np.sin(Lat)) / 100.0, 0.0],dtype = np.float64)
+gyro = np.array([(U * np.cos(Lat)) *1e-2 + bias_gyro*1e-2, (U * np.sin(Lat)) * 1e-2 + bias_gyro*1e-2, bias_gyro*1e-2],dtype = np.float64)
 Sensors = np.zeros((6,2),dtype = np.float64)
 W_NUE = np.array([0,0,0])
 W_NUE_old = np.array([0,0,0])
 dt = 1.0 / 100.0
-Roll = 20.0 * np.pi / 180
-Pitch = 10.0 * np.pi / 180
+Roll = 0.0 * np.pi / 180
+Pitch = 0.0 * np.pi / 180
 Heading = 270.0 * np.pi / 180
 C_B_N = DCM_bn(Heading, Pitch, Roll)
 acc = C_B_N.T @ acc
 gyro = C_B_N.T @ gyro
-T = 5400 # c
+T = 3600 # c
 N = 100 * T
 t = np.linspace(0,T,N)
 
