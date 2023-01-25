@@ -27,8 +27,8 @@ theta_0 = theta
 
 
 # задаю начальные координаты (Москва, Оснанкинская башня)
-phi_0 = vars['lattitude'] #в радианах
-lmbda_0 = vars['longitude'] #в радианах
+phi_0 = vars['lattitude'] # в радианах
+lmbda_0 = vars['longitude'] # в радианах
 
 g = 9.81
 U = 15 * deg_to_rad / 3600 #радианы в секунды
