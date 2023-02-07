@@ -26,9 +26,9 @@ gamma_0= gamma
 theta_0 = theta
 
 
-# задаю начальные координаты (Москва, Остнанкинская башня)
-phi_0 = vars['lattitude'] # в радианах
-lmbda_0 = vars['longitude'] # в радианах
+# задаю начальные координаты (Москва, Оснанкинская башня)
+phi_0 = vars['lattitude'] #в радианах
+lmbda_0 = vars['longitude'] #в радианах
 
 g = 9.81
 U = 15 * deg_to_rad / 3600 #радианы в секунды
@@ -188,15 +188,15 @@ for i in range(len(vars['omega_x'])-4):
         k_2 = w_b - delta_alpha_sym*(delta_W+ h_1*k_1/2)
         k_3 = w_b - delta_alpha_sym*(delta_W+ h_1*k_2/2)
         k_4 = w_b - delta_alpha_sym*(delta_W+ h_1*k_3)
-        delta_W = delta_W+ (k_1+2*k_2+2*k_3+k_4)/6
+        delta_W = delta_W + (k_1+2*k_2+2*k_3+k_4)/6
 
         #пересчет линейных скоростей в опорную систему координат
 
         delta_W_o = np.dot(C_b_o, delta_W)
 
-        V_ox = V_ox+delta_W_o[0,0]+h_4*((U*np.sin(phi)+omega_oz)*V_oy - (U*np.cos(phi)+omega_oy)*V_oz)
-        V_oy = V_oy + delta_W_o[1,0] +h_4*(-(U*np.sin(phi)+omega_oz)*V_ox - omega_ox*V_oz)
-        V_oz = V_oz + delta_W_o[2,0] +h_4*((U*np.cos(phi)+omega_oy)*V_ox - omega_ox*V_oy - g) #по прикладному алгоритму (блок схема)
+        V_ox = V_ox + delta_W_o[0,0] + h_4*((U*np.sin(phi)+omega_oz)*V_oy - (U*np.cos(phi)+omega_oy)*V_oz)
+        V_oy = V_oy + delta_W_o[1,0] + h_4*(-(U*np.sin(phi)+omega_oz)*V_ox - omega_ox*V_oz)
+        V_oz = V_oz + delta_W_o[2,0] + h_4*((U*np.cos(phi)+omega_oy)*V_ox - omega_ox*V_oy - g) # по прикладному алгоритму (блок схема)
 
         # # по Егорушкину и Салычеву
         # delta_a_up_c = -V_oy**2/(R_phi+Hight) - V_ox**2/(R_lambda+Hight) - 2*V_ox*U*np.cos(phi)
