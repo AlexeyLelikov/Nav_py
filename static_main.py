@@ -26,23 +26,36 @@ g_P_N_extrap[0] = -cosL * sinB * gravity[0] - sinL * sinB * gravity[1] + cosB * 
 g_P_N_extrap[1] = cosL * cosB * gravity[0] + sinL * cosB * gravity[1] + sinB * gravity[2]
 gt = abs(g_P_N_extrap[1])
 U = 7.292115e-5
-bias_gyro = (0.5 * np.pi / 180) / 3600.0
-K_gyro = 1 + 0.02
-K_gyro = 1 + 0.03
-bias_acc = (0.5 * 180.0 / np.pi) / 3600.0
-acc = np.array([0.0, gt / 100.0, 0.0], dtype = np.float64)
-gyro = np.array([(U * np.cos(Lat)) *1e-2 + bias_gyro*1e-2, (U * np.sin(Lat)) * 1e-2 + bias_gyro*1e-2, bias_gyro*1e-2],dtype = np.float64)
+
+bias_gyro_x = (1 * np.pi / 180) / 3600.0 # рад / c
+bias_gyro_y = (2 * np.pi / 180) / 3600.0 # рад / c
+bias_gyro_z = 0
+bias_acc_x = 0.005
+bias_acc_y = 0.01
+bias_acc_z = 0
+# вектора смещений
+bias_gyro = np.array([bias_gyro_y, bias_gyro_z, bias_gyro_x],dtype = np.float64)
+bias_acc = np.array([bias_acc_y, bias_acc_z, bias_acc_x],dtype = np.float64)
+K_gyro = np.eye(3,dtype = np.float64)
+K_acc = np.eye(3,dtype = np.float64)
+# идеальные показания
+acc = np.array([0.0, gt, 0.0], dtype = np.float64)
+gyro = np.array([(U * np.cos(Lat)), (U * np.sin(Lat)), 0],dtype = np.float64)
+# Синтезированные показания
+acc = K_acc @ acc + bias_acc
+gyro = K_gyro @ gyro + bias_gyro
+
 Sensors = np.zeros((6,2),dtype = np.float64)
 W_NUE = np.array([0,0,0])
 W_NUE_old = np.array([0,0,0])
 dt = 1.0 / 100.0
-Roll = 0.0 * np.pi / 180
-Pitch = 0.0 * np.pi / 180
-Heading = 270.0 * np.pi / 180
+Roll = 2.036765840949846 * np.pi / 180
+Pitch = 4.938451395766328 * np.pi / 180
+Heading = 179.0 * np.pi / 180
 C_B_N = DCM_bn(Heading, Pitch, Roll)
 acc = C_B_N.T @ acc
 gyro = C_B_N.T @ gyro
-T = 3600 # c
+T = 60 * 90 # c
 N = 100 * T
 t = np.linspace(0,T,N)
 
@@ -63,10 +76,10 @@ queue_W_N = np.zeros(N)
 queue_W_U = np.zeros(N)
 queue_W_E = np.zeros(N)
 
-Sensors[0:3,1] = acc # выходной сигнал акселерометра по осям чувствительности (x,y,z) на текущем такте расчетов
-Sensors[0:3,0] = acc
-Sensors[3:6,0] = gyro
-Sensors[3:6,1] = gyro
+Sensors[0:3,1] = acc * 1e-2 # выходной сигнал акселерометра по осям чувствительности (x,y,z) на текущем такте расчетов
+Sensors[0:3,0] = acc * 1e-2
+Sensors[3:6,0] = gyro * 1e-2
+Sensors[3:6,1] = gyro * 1e-2
 
 for i in range(0,N):
     NavState[2] = 0.0
