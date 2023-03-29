@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12a76f9f-90fe-4e96-afef-cd8ec01af1f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/EKF/EKF.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EKF/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/function/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SINS/static/static_main_bykovsky.py" beforeDir="false" afterPath="$PROJECT_DIR$/SINS/static/static_main_bykovsky.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SINS/static/static_main_savage.py" beforeDir="false" afterPath="$PROJECT_DIR$/SINS/static/static_main_savage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/Alg_SINS_Bykovsky.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/Alg_SINS_Bykovsky.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/Рис_ИНС_ДЗ_1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/Рис_ИНС_ДЗ_1.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +18,17 @@
       <list>
         <option value="Python Script" />
       </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -35,7 +47,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Алексей/Desktop/NavPy/SINS/static/static_main_savage.py"
+    "last_opened_file_path": "C:/Users/Алексей/Desktop/NavPy/SINS/static/static_main_savage.py",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.notebooks.jupyter.connections.configuration.JupyterServerConfigurable"
   }
 }]]></component>
   <component name="RunManager">
@@ -72,6 +85,9 @@
       <updated>1678888941788</updated>
       <workItem from="1678888943543" duration="594000" />
       <workItem from="1678889571639" duration="3883000" />
+      <workItem from="1679237101009" duration="664000" />
+      <workItem from="1679989040968" duration="1437000" />
+      <workItem from="1680112506206" duration="5763000" />
     </task>
     <servers />
   </component>
