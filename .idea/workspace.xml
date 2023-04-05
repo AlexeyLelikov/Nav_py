@@ -87,6 +87,7 @@
       <workItem from="1680112506206" duration="5763000" />
       <workItem from="1680271899534" duration="6469000" />
       <workItem from="1680536596749" duration="6061000" />
+      <workItem from="1680556395521" duration="1924000" />
     </task>
     <servers />
   </component>
@@ -105,9 +106,9 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/___1_ipynb$static_main_savage.coverage" NAME="static_main_savage Coverage Results" MODIFIED="1680276815901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
     <SUITE FILE_PATH="coverage/static_main_bykovsky_py$static_main_bykovsky.coverage" NAME="static_main_bykovsky Coverage Results" MODIFIED="1679047983972" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
-    <SUITE FILE_PATH="coverage/SINS_Savage_py$static_main_savage.coverage" NAME="static_main_savage Coverage Results" MODIFIED="1678893070091" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
     <SUITE FILE_PATH="coverage/SINS_Savage_py$SINS_Savage.coverage" NAME="SINS_Savage Coverage Results" MODIFIED="1678954640811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/dinamic" />
+    <SUITE FILE_PATH="coverage/___1_ipynb$static_main_savage.coverage" NAME="static_main_savage Coverage Results" MODIFIED="1680276815901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
+    <SUITE FILE_PATH="coverage/SINS_Savage_py$static_main_savage.coverage" NAME="static_main_savage Coverage Results" MODIFIED="1678893070091" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
   </component>
 </project>
