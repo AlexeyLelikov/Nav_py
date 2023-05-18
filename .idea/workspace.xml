@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="12a76f9f-90fe-4e96-afef-cd8ec01af1f7" name="Changes" comment="" />
+    <list default="true" id="12a76f9f-90fe-4e96-afef-cd8ec01af1f7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/notebooks/Рис_ИНС_ДЗ_2.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,8 +13,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Jupyter Notebook" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -92,7 +95,9 @@
       <workItem from="1684150076108" duration="6943000" />
       <workItem from="1684157647180" duration="2905000" />
       <workItem from="1684169186387" duration="2176000" />
-      <workItem from="1684399256549" duration="318000" />
+      <workItem from="1684399256549" duration="5974000" />
+      <workItem from="1684412768434" duration="6573000" />
+      <workItem from="1684422414079" duration="3240000" />
     </task>
     <servers />
   </component>
