@@ -3,19 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="12a76f9f-90fe-4e96-afef-cd8ec01af1f7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/Alg_SINS_Bykovsky.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/Alg_SINS_Bykovsky.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img/КФ аксы.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img/КФ аксы.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img/КФ гироскопы.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img/КФ гироскопы.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img/аксы_случайные.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img/аксы_случайные.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img/гиры_случайные.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img/гиры_случайные.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img/координаты_случайные.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img/координаты_случайные.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img/курс_случайные.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img/курс_случайные.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img/скорости_случайные.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img/скорости_случайные.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img/углы_случайные.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img/углы_случайные.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img2/координаты.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img2/координаты.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img2/курс.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img2/курс.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img2/скорости.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img2/скорости.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/img2/углы.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/img2/углы.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notebooks/Рис_ИНС_ДЗ_1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/Рис_ИНС_ДЗ_1.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notebooks/Рис_ИНС_ДЗ_2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/Рис_ИНС_ДЗ_2.ipynb" afterDir="false" />
     </list>
@@ -59,7 +46,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Xiaomi Air 13/Desktop/NAV&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Алексей/Desktop/NavPy&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.notebooks.jupyter.connections.configuration.JupyterServerConfigurable&quot;
   }
 }</component>
@@ -114,6 +101,9 @@
       <workItem from="1684422414079" duration="3240000" />
       <workItem from="1684581513838" duration="17062000" />
       <workItem from="1684682606828" duration="14492000" />
+      <workItem from="1684752416820" duration="71000" />
+      <workItem from="1684752495562" duration="721000" />
+      <workItem from="1684754546474" duration="3592000" />
     </task>
     <servers />
   </component>
@@ -132,9 +122,9 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/static_main_bykovsky_py$static_main_bykovsky.coverage" NAME="static_main_bykovsky Coverage Results" MODIFIED="1679047983972" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
-    <SUITE FILE_PATH="coverage/SINS_Savage_py$SINS_Savage.coverage" NAME="SINS_Savage Coverage Results" MODIFIED="1678954640811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/dinamic" />
     <SUITE FILE_PATH="coverage/___1_ipynb$static_main_savage.coverage" NAME="static_main_savage Coverage Results" MODIFIED="1680276815901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
+    <SUITE FILE_PATH="coverage/static_main_bykovsky_py$static_main_bykovsky.coverage" NAME="static_main_bykovsky Coverage Results" MODIFIED="1679047983972" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
     <SUITE FILE_PATH="coverage/SINS_Savage_py$static_main_savage.coverage" NAME="static_main_savage Coverage Results" MODIFIED="1678893070091" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/static" />
+    <SUITE FILE_PATH="coverage/SINS_Savage_py$SINS_Savage.coverage" NAME="SINS_Savage Coverage Results" MODIFIED="1678954640811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SINS/dinamic" />
   </component>
 </project>
