@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from function import *
-from model import *
+from model import Savage
 
 Lat = 55.0 * (np.pi / 180.0)
 Lon = 38.0 * (np.pi / 180.0)

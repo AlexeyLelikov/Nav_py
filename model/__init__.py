@@ -1,2 +1,2 @@
-from .Savage import *
+from .Savage import Savage
 from .SINS import *
